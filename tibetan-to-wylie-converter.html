@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tibetan to Wylie converter</title>
+<meta charset="utf-8">
+
+    <script type="text/javascript">
+	  
+var conversion = {
+"ཀ":"k",
+"ྐ":"k",
+"ཁ":"kh",
+"ྑ":"kh",
+"ག":"g",
+"ྒ": "g",
+"ང":"ng",
+"ྔ":"ng",
+"ཅ":"c",
+"ྕ":"c",
+"ཆ":"ch",
+"ྖ":"ch",
+"ཇ":"j",
+"ྗ":"j",
+"ཉ":"ny",
+"ྙ":"ny",
+"ཏ":"t",
+"ྟ":"t",
+"ཐ":"th",
+"ྠ":"th",
+"ད":"d",
+"ྡ":"d",
+"ན":"n",
+"ྣ":"n",
+"པ":"p",
+"ྤ":"p",
+"ཕ":"ph",
+"ྥ":"ph",
+"བ":"b",
+"ྦ":"b",
+"མ":"m",
+"ྨ":"m",
+"ཙ":"ts",
+"ྩ":"ts",
+"ཚ":"tsh",
+"ྪ":"tsh",
+"ཛ":"dz",
+"ྫ":"dz",
+"ཝ":"w",
+"ྭ":"w",
+"ཞ":"zh",
+"ྮ":"zh",
+"ཟ":"z",
+"ྯ":"z",
+"འ":"'",
+"ཱ":"'",
+"ཡ":"y",
+"ྱ":"y",
+"ར":"r",
+"ྲ":"r",
+"ལ":"l",
+"ླ":"l",
+"ཤ":"sh",
+"ྴ":"sh",
+"ས":"s",
+"ྶ":"s",
+"ཧ":"h",
+"ྷ":"h",
+
+
+
+"ཨ":"a",
+"ྸ":"a",
+"ི":"i",
+"ུ":"u",
+"ེ":"e",
+"ོ":"o",
+"ཨེ":"e",
+"ཨི":"i",
+"ཨོ":"o",
+"ཨུ":"u",
+"་":"\u0020",
+"་“":" “",
+"་”":"” ",
+"།":".",
+"།།":".",
+"༎":".",
+"་།":".",
+"༡":"1",
+"༢":"2",
+"༣":"3",
+"༤":"4",
+"༥":"5",
+"༦":"6",
+"༧":"7",
+"༨":"8",
+"༩":"9",
+"༠":"0",
+        };
+
+ var maxLength = Object.keys(conversion)
+    .reduce((a, b) => a.length > b.length ? a : b) // get the longest word
+    .length; // and it's length
+  
+  function convert (text) {
+    var converted = "";
+    var cur = 0;
+    while (cur < text.length) {
+      var testedPhoneme;
+      var symbol = undefined;
+      for (var length = maxLength; length > 0; length --) {
+        testedPhoneme = text.substr(cur, length);
+        if (conversion[testedPhoneme]) {
+          symbol = conversion[testedPhoneme];
+          break; // stop the loop
+        }
+      }
+      if (symbol) {
+        converted += symbol;
+        cur += testedPhoneme.length;
+      }
+      else {
+        converted += text[cur]
+        cur++;
+      }
+    }
+    return converted
+  }
+
+  function onInputTextChange(txt) {
+    var outputTextareaElem = document.getElementById("output_textarea");
+    var div = document.createElement("div");
+    var outputHtmlEntities = convert(txt);
+    div.innerHTML = outputHtmlEntities;
+    outputTextareaElem.value = div.innerText;
+  }
+
+
+        function select() {
+          const input = document.getElementById('input_textarea');
+          input.focus();
+          input.select();
+        }   
+        function copytext() {
+          var copyText = document.getElementById("output_textarea");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999)
+          document.execCommand("copy");
+        }
+
+    </script>
+    
+<style>
+@import url(https://victorlee.github.io/fonts/stylesheet.css);
+html {
+font-family: Arial;
+}
+table {
+  border-collapse: collapse;
+  width: 90%;
+}
+td, th {
+  border: 1px solid #AAA;
+  text-align: center;
+  padding: 1px;
+}
+textarea {
+	font-size: 16pt;
+    width: 96%;
+} 
+.note {
+  border: 1px solid #DDD;
+  width: 30%;
+  text-align: left;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#input_textarea {
+font-family:Yagpo Tibetan Uni;
+font-size: 16px;
+}
+</style>
+
+
+</head>
+<body>  
+
+<body>  
+
+<center><h1 class="text-center">Tibetan to Wylie converter</h1>
+<p>(vowel 'a' mostly ommited)</p></center><br>
+ 
+<center>
+<table>
+<thead>
+<tr>
+<th>	
+<button onclick="select('input_textarea')">Select all</button>
+<button onclick="document.getElementById('input_textarea').value = ''">Clear</button>
+</th>
+<th>
+<button onclick="copytext()">Copy text</button>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<textarea
+id="input_textarea"
+autofocus=""
+placeholder="Input text here"
+rows="8"
+oninput="onInputTextChange(this.value)"></textarea>    
+</td>
+<td>
+<textarea rows="10" placeholder="output" id="output_textarea" style="font-family:arial"></textarea>    
+</td>
+</tr>
+</tbody>
+</table>
+</center>
+
+</body>
+</html>
