@@ -1,0 +1,753 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tibetan typer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript">
+   
+var conversion = {
+"k": "ཀ",
+"K": "ྐ",
+"kh": "ཁ",
+"KH": "ྑ",
+"g": "ག",
+"G": "ྒ",
+"ng": "ང",
+"NG": "ྔ",
+"c": "ཅ",
+"C": "ྕ",
+"ch": "ཆ",
+"CH": "ྖ",
+"j": "ཇ",
+"J": "ྗ",
+"ny": "ཉ",
+"NY": "ྙ",
+"t": "ཏ",
+"T": "ྟ",
+"th": "ཐ",
+"TH": "ྠ",
+"d": "ད",
+"D": "ྡ",
+"n": "ན",
+"N": "ྣ",
+"p": "པ",
+"P": "ྤ",
+"ph": "ཕ",
+"PH": "ྥ",
+"b": "བ",
+"B": "ྦ",
+"m": "མ",
+"M": "ྨ",
+"ts": "ཙ",
+"TS": "ྩ",
+"tsh": "ཚ",
+"TSH": "ྪ",
+"dz": "ཛ",
+"DZ": "ྫ",
+"w": "ཝ",
+"W": "ྭ",
+"zh": "ཞ",
+"ZH": "ྮ",
+"z": "ཟ",
+"Z": "ྯ",
+"'":"['a, 'A]",
+"'": "འ",
+'"': "ཱ",
+"y": "ཡ",
+"Y": "ྱ",
+"r": "ར",
+"R": "ྲ",
+"l": "ལ",
+"L": "ླ",
+"sh": "ཤ",
+"SH": "ྴ",
+"s": "ས",
+"S": "ྶ",
+"h": "ཧ",
+"H": "ྷ",
+"a": "ཨ",
+"A": "ྸ",
+"tx": "ཊ",
+"TX": "ྚ",
+"yx": "ཋ",
+"YX": "ྛ",
+"dx": "ཌ",
+"DX": "ྜ",
+"nx": "ཎ",
+"NX": "ྞ",
+"sx": "ཥ",
+"SX": "ྵ",
+"i": "ི",
+"u": "ུ",
+"e": "ེ",
+"o": "ོ",
+"ax": "ཱ",
+"ex": "ཻ",
+"ox": "ཽ",
+"mx": "ཾ",
+"cx": "ྃ",
+"rx": "ཷ",
+"hx": "ཿ",
+"qx": "྄",
+"-x": "྅",
+"x": "[sanskrit]",
+"X": "[sanskrit]",
+"\u0020": "་",
+"\u0020\u0020": "\u0020",
+"q": "&#8203;",
+"[": "༄",
+"]": "༈",
+"|": "༴",
+"((": "༺",
+"))": "༻",
+"{": "༼",
+"}": "༽",
+"<": "«",
+">": "»",
+".": "།",
+".\u0020": "། ",
+"..": "༎",
+"..\u0020": "༎ ",
+
+"1": "༡",
+"2": "༢",
+"3": "༣",
+"4": "༤",
+"5": "༥",
+"6": "༦",
+"7": "༧",
+"8": "༨",
+"9": "༩",
+"0": "༠",
+
+"v": "[invalid]",
+"Q": "[invalid]",
+"E": "[invalid]",
+"U": "[invalid]",
+"I": "[invalid]",
+"O": "[invalid]",
+"f": "[invalid]",
+"F": "[invalid]",
+"V": "[invalid]",
+
+        };
+
+ var maxLength = Object.keys(conversion)
+    .reduce((a, b) => a.length > b.length ? a : b) // get the longest word
+    .length; // and its length
+  
+  function translate (text) {
+    var translated = "";
+    var cur = 0;
+    while (cur < text.length) {
+      var testedPhoneme;
+      var symbol = undefined;
+      for (var length = maxLength; length > 0; length --) {
+        testedPhoneme = text.substr(cur, length);
+        if (conversion[testedPhoneme]) {
+          symbol = conversion[testedPhoneme];
+          break; // stop the loop
+        }
+      }
+      if (symbol) {
+        translated += symbol;
+        cur += testedPhoneme.length;
+      }
+      else {
+        translated += text[cur]
+        cur++;
+      }
+    }
+    return translated
+  }
+
+  function onLatinTextChange(txt) {
+    var outputTextareaElem = document.getElementById("output_textarea");
+    var div = document.createElement("div");
+    var outputHtmlEntities = translate(txt);
+    div.innerHTML = outputHtmlEntities;
+    outputTextareaElem.value = div.innerText;
+  }
+	
+        function select() {
+          const input = document.getElementById('input_textarea');
+          input.focus();
+          input.select();
+        }   
+        function copytext() {
+          var copyText = document.getElementById("output_textarea");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999)
+          document.execCommand("copy");
+        }
+    </script>
+    
+<style>
+@import url(https://victorlee.github.io/fonts/stylesheet.css);	
+  html {font-family:arial}
+table {
+  border-collapse: collapse;
+  width: 70%;
+}
+@media (max-width: 700px) {
+table {
+  border-collapse: collapse;
+  width: 97%;
+}
+}	
+	
+td, th {
+  border: 1px solid #AAA;
+  text-align: center;
+  padding: 1px;
+}
+textarea {
+	font-size: 13pt;
+	font-family: Arial;
+    width: 96%;
+} 
+.note {
+  border: 1px solid #DDD;
+  width: 30%;
+  text-align: left;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}	
+.convtab {
+overflow-y: scroll; 
+height:210px;
+width:170px;
+}
+@media (max-width: 700px) {
+.convtab {
+width:100px;
+}
+}
+	
+textarea.tibetan {
+font-size: 14pt;
+}
+</style>
+
+
+</head> 
+
+<body>  
+
+<center><h1 class="text-center">Tibetan typer</h1></center>
+ 
+<center>
+<table>
+<thead>
+<tr>
+<th>	
+<button onclick="select('latin_textarea')">Select all</button>
+<button onclick="document.getElementById('latin_textarea').value = ''">Clear</button>
+</th>
+<th>
+
+<button onclick="wiktionary()">Wiktionary</button>
+<button onclick="copytext()">Copy text</button>
+<script>
+function wiktionary() {
+  window.open("https://en.wiktionary.org/wiki/" + document.getElementById('output_textarea').value + "#Tibetan", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=300,width=600,height=600");
+}
+</script>
+</th>
+<th>Conversion table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<textarea
+id="latin_textarea"
+autofocus=""
+placeholder="Latin text here"
+rows="10"
+oninput="onLatinTextChange(this.value)">sPYn rs gzigs</textarea>    
+</td>
+<td>
+<textarea class="tibetan" rows="7" placeholder="output" id="output_textarea" style="font-family:'Yagpo Tibetan Uni'">སྤྱན་རས་གཟིགས</textarea>    
+</td>
+<td>
+
+<center>
+<div class="convtab">
+<table style="font-family: Arial, 'Yagpo Tibetan Uni'">
+<thead>
+<tr>
+<th>Latin</th>
+<th>Tibetan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k</td>
+<td>ཀ</td>
+<tr>
+<td>kh</td>
+<td>ཁ</td>
+</tr>
+</tr>
+<tr>
+<td>g</td>
+<td>ག</td>
+</tr>
+<tr>
+<td>ng</td>
+<td>ང</td>
+</tr>
+<tr>
+<td>c</td>
+<td>ཅ</td>
+</tr>
+<tr>
+<td>ch</td>
+<td>ཆ</td>
+</tr>
+<tr>
+<td>j</td>
+<td>ཇ</td>
+</tr>
+<tr>
+<td>ny</td>
+<td>ཉ</td>
+</tr>
+<tr>
+<td>t</td>
+<td>ཏ</td>
+</tr>
+<tr>
+<td>th</td>
+<td>ཐ</td>
+</tr>
+<tr>
+<td>d</td>
+<td>ད</td>
+</tr>
+<tr>
+<td>n</td>
+<td>ན</td>
+</tr>
+<tr>
+<td>p</td>
+<td>པ</td>
+</tr>
+<tr>
+<td>ph</td>
+<td>ཕ</td>
+</tr>
+<tr>
+<td>b</td>
+<td>བ</td>
+</tr>
+<tr>
+<td>m</td>
+<td>མ</td>
+</tr>
+<tr>
+<td>ts</td>
+<td>ཙ</td>
+</tr>
+<tr>
+<td>tsh</td>
+<td>ཚ</td>
+</tr>
+<tr>
+<td>dz</td>
+<td>ཛ</td>
+</tr>
+<tr>
+<td>w</td>
+<td>ཝ</td>
+</tr>
+<tr>
+<td>zh</td>
+<td>ཞ</td>
+</tr>
+<tr>
+<td>z</td>
+<td>ཟ</td>
+</tr>
+<tr>
+<td>'</td>
+<td>འ</td>
+</tr>
+<tr>
+<td>y</td>
+<td>ཡ</td>
+</tr>
+<tr>
+<td>r</td>
+<td>ར</td>
+</tr>
+<tr>
+<td>l</td>
+<td>ལ</td>
+</tr>
+<tr>
+<td>sh</td>
+<td>ཤ</td>
+</tr>
+<tr>
+<td>s</td>
+<td>ས</td>
+</tr>
+<tr>
+<td>h</td>
+<td>ཧ</td>
+</tr>
+<tr>
+<td>a</td>
+<td>ཨ</td>
+</tr>
+<tr>
+<td>tx</td>
+<td>ཊ</td>
+</tr>
+<tr>
+<td>yx</td>
+<td>ཋ</td>
+</tr>
+<tr>
+<td>dx</td>
+<td>ཌ</td>
+</tr>
+<tr>
+<td>nx</td>
+<td>ཎ</td>
+</tr>
+<tr>
+<td>sx</td>
+<td>ཥ</td>
+</tr>
+
+<tr>
+<td>K</td>
+<td>ྐ</td>
+</tr>
+<tr>
+<td>KH</td>
+<td>ྑ</td>
+</tr>
+<tr>
+<td>G</td>
+<td>ྒ</td>
+</tr>
+<tr>
+<td>NG</td>
+<td>ྔ</td>
+</tr>
+<tr>
+<td>C</td>
+<td>ྕ</td>
+</tr>
+<tr>
+<td>CH</td>
+<td>ྖ</td>
+</tr>
+<tr>
+<td>J</td>
+<td>ྗ</td>
+</tr>
+<tr>
+<td>NY</td>
+<td>ྙ</td>
+</tr>
+<tr>
+<td>T</td>
+<td>ྟ</td>
+</tr>
+<tr>
+<td>TH</td>
+<td>ྠ</td>
+</tr>
+<tr>
+<td>D</td>
+<td>ྡ</td>
+</tr>
+<tr>
+<td>N</td>
+<td>ྣ</td>
+</tr>
+<tr>
+<td>P</td>
+<td>ྤ</td>
+</tr>
+<tr>
+<td>PH</td>
+<td>ྥ</td>
+</tr>
+<tr>
+<td>B</td>
+<td>ྦ</td>
+</tr>
+<tr>
+<td>M</td>
+<td>ྨ</td>
+</tr>
+<tr>
+<td>TS</td>
+<td>ྩ</td>
+</tr>
+<tr>
+<td>TSH</td>
+<td>ྪ</td>
+</tr>
+<tr>
+<td>DZ</td>
+<td>ྫ</td>
+</tr>
+<tr>
+<td>W</td>
+<td>ྭ</td>
+</tr>
+<tr>
+<td>ZH</td>
+<td>ྮ</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>ྯ</td>
+</tr>
+<tr>
+<td>"</td>
+<td>ྰ</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>ྱ</td>
+</tr>
+<tr>
+<td>R</td>
+<td>ྲ</td>
+</tr>
+<tr>
+<td>L</td>
+<td>ླ</td>
+</tr>
+<tr>
+<td>SH</td>
+<td>ྴ</td>
+</tr>
+<tr>
+<td>S</td>
+<td>ྶ</td>
+</tr>
+<tr>
+<td>H</td>
+<td>ྷ</td>
+</tr>
+<tr>
+<td>A</td>
+<td>ྸ</td>
+</tr>
+<tr>
+<td>TX</td>
+<td>ྚ</td>
+</tr>
+<tr>
+<td>YX</td>
+<td>ྛ</td>
+</tr>
+<tr>
+<td>DX</td>
+<td>ྜ</td>
+</tr>
+<tr>
+<td>NX</td>
+<td>ྞ</td>
+</tr>
+<tr>
+<td>SX</td>
+<td>ྵ</td>
+</tr>
+
+
+<tr>
+<td>i</td>
+<td>ི</td>
+</tr>
+<tr>
+<td>u</td>
+<td>ུ</td>
+</tr>
+<tr>
+<td>e</td>
+<td>ེ</td>
+</tr>
+<tr>
+<td>o</td>
+<td>ོ</td>
+</tr>
+<tr>
+<td>ax</td>
+<td>ཱ</td>
+</tr>
+<tr>
+<td>ex</td>
+<td>ཻ</td>
+</tr>
+<tr>
+<td>ox</td>
+<td>ཽ</td>
+</tr>
+<tr>
+<td>mx</td>
+<td>ཾ</td>
+</tr>
+<tr>
+<td>cx</td>
+<td>ྃ</td>
+</tr>
+<tr>
+<td>rx</td>
+<td>ཷ</td>
+</tr>
+<tr>
+<td>hx</td>
+<td>ཿ</td>
+</tr>
+<tr>
+<td>qx</td>
+<td>྄</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>྅</td>
+</tr>
+<tr>
+<td>x, X</td>
+<td>[sanskrit]</td>
+</tr>
+<tr>
+<td>space</td>
+<td>་</td>
+</tr>
+<tr>
+<td>double space</td>
+<td>space</td>
+</tr>
+<tr>
+<td>q</td>
+<td>character<br>breaker</td>
+</tr>
+<tr>
+<td>[</td>
+<td>༄</td>
+</tr>
+<tr>
+<td>]</td>
+<td>༈</td>
+</tr>
+<tr>
+<td>|</td>
+<td>༴</td>
+</tr>
+<tr>
+<td>((</td>
+<td>༺</td>
+</tr>
+<tr>
+<td>))</td>
+<td>༻</td>
+</tr>
+<tr>
+<td>{</td>
+<td>༼</td>
+</tr>
+<tr>
+<td>}</td>
+<td>༽</td>
+</tr>
+<tr>
+<td><</td>
+<td>«</td>
+</tr>
+<tr>
+<td>></td>
+<td>»</td>
+</tr>
+<tr>
+<td>.</td>
+<td>།</td>
+</tr>
+<tr>
+<td>. + space</td>
+<td>། + space</td>
+</tr>
+<tr>
+<td>..</td>
+<td>༎</td>
+</tr>
+<tr>
+<td>.. + space</td>
+<td>༎ + space</td>
+</tr>
+<tr>
+<td>1</td>
+<td>༡</td>
+</tr>
+<tr>
+<td>2</td>
+<td>༢</td>
+</tr>
+<tr>
+<td>3</td>
+<td>༣</td>
+</tr>
+<tr>
+<td>4</td>
+<td>༤</td>
+</tr>
+<tr>
+<td>5</td>
+<td>༥</td>
+</tr>
+<tr>
+<td>6</td>
+<td>༦</td>
+</tr>
+<tr>
+<td>7</td>
+<td>༧</td>
+</tr>
+<tr>
+<td>8</td>
+<td>༨</td>
+</tr>
+<tr>
+<td>9</td>
+<td>༩</td>
+</tr>
+<tr>
+<td>0</td>
+<td>༠</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+</div>
+</center>
+
+</td>
+</tr>
+</tbody>
+</table>
+</center>
+
+<br>
+<center><b><p><a href="converter.html">Tibetan to Wylie / phonetic transliteration converter</a><br><a href="../converter.html">Full list of converters</a><br><a href="mailto:hello@victorlee.me">email</a><br><a href="./index.html">Back to index</a></p></b></center>
+<br>   
+
+</body>
+</html>
