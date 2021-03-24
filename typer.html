@@ -182,6 +182,15 @@ var conversion = {
           copyText.setSelectionRange(0, 99999)
           document.execCommand("copy");
         }
+	
+function copy(that){
+var inp =document.createElement('input');
+document.body.appendChild(inp)
+inp.value =that.textContent
+inp.select();
+document.execCommand('copy',false);
+inp.remove();
+}
     </script>
     
 <style>
@@ -230,6 +239,17 @@ width:100px;
 	
 textarea.tibetan {
 font-size: 14pt;
+}
+
+#char {
+  width:7rem;
+  cursor:pointer;
+}
+#char td {
+  width: 10px;
+}
+#char td:hover {
+  background-color: #eee;
 }
 </style>
 
@@ -736,6 +756,17 @@ oninput="onLatinTextChange(this.value)">sPYn rs gzigs</textarea>
 
 
 </div>
+	
+<table id="char"><tbody>
+<tr>
+    <td onclick="copy(this)">ä</td>
+    <td onclick="copy(this)">ö</td>
+    <td onclick="copy(this)">ü</td>
+    <td onclick="copy(this)">́</td>
+    <td onclick="copy(this)">̀</td>
+</tr>
+</tbody></table>
+	
 </center>
 
 </td>
